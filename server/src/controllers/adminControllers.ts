@@ -29,7 +29,7 @@ export const signup = async (req: Request, res: Response) => {
     return res.status(201).json({ message: "Admin user created successfully" });
   } catch (error) {
     loggerService.error(`${error}`, {
-      filename: "controllers/AdminRoutes.ts",
+      filename: "controllers/adminControllers.ts",
       function: "signup",
     });
     res.status(400).json({ error: "Unable to create admin user" });
@@ -56,14 +56,12 @@ export const signin = async (req: Request, res: Response) => {
     }
 
     const userId = user._id.toString();
-    const token = jwt.sign({ userId }, config.server.jwt.secret!, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign({ userId }, config.server.jwt.secret!);
 
     res.status(200).json({ token });
   } catch (error) {
     loggerService.error(`${error}`, {
-      filename: "controllers/AdminRoutes.ts",
+      filename: "controllers/adminControllers.ts",
       function: "signin",
     });
     res.status(400).json({ error: "Invalid payload" });
