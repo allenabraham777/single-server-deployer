@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from "express";
+import LoggerService from "services/LoggerService";
+const loggerService = LoggerService.getInstance();
 
 export const errorHandler = (
   err: any,
@@ -12,7 +14,10 @@ export const errorHandler = (
     statusCode = err.statusCode;
   }
 
-  console.error(err);
+  loggerService.error(err, {
+    filename: "utils/errorHandler.ts",
+    function: "errorHandler",
+  });
 
   return res.status(statusCode).json({ error: err.message });
 };

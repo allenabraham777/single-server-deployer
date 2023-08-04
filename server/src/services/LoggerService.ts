@@ -23,9 +23,12 @@ class LoggerService {
     }
   }
 
-  public error(message: string): void {
+  public error(
+    message: string,
+    source: { filename: string; function: string }
+  ): void {
     for (const logger of this.loggers) {
-      logger.error(message);
+      logger.error(message, source);
     }
   }
 }

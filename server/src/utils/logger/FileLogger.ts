@@ -17,10 +17,12 @@ class FileLogger extends LoggerBase {
     );
   }
 
-  error(message: string): void {
+  error(message: string, source: { filename: string; function: string }): void {
     fs.appendFileSync(
       this.filePath,
-      `[${getFormattedNow()}] [${this.name}] [ERROR] ${message}\n`
+      `[${getFormattedNow()}] [${this.name}] [ERROR] At ${source.filename} in ${
+        source.function
+      }, Message: ${message}\n`
     );
   }
 }

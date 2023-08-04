@@ -1,5 +1,8 @@
+import colors from "colors";
 import { getFormattedNow } from "helpers/time";
 import LoggerBase from "utils/logger/LoggerBase";
+
+const getTime = () => colors.blue(getFormattedNow());
 
 class Logger extends LoggerBase {
   constructor() {
@@ -7,11 +10,15 @@ class Logger extends LoggerBase {
   }
 
   log(message: string): void {
-    console.log(`[${getFormattedNow()}] [${this.name}] [LOG] ${message}`);
+    console.log(`[${getTime()}] [${this.name}] [LOG] ${colors.green(message)}`);
   }
 
-  error(message: string): void {
-    console.error(`[${getFormattedNow()}] [${this.name}] [ERROR] ${message}`);
+  error(message: string, source: { filename: string; function: string }): void {
+    console.error(
+      `[${getTime()}] [${this.name}] [ERROR] At ${colors.yellow(
+        source.filename
+      )} in ${colors.yellow(source.function)}, Message: ${colors.red(message)}`
+    );
   }
 }
 
