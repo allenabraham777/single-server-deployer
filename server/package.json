@@ -28,6 +28,7 @@
     "colors": "^1.4.0",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.2",
+    "simple-git": "^3.19.1",
     "tsconfig-paths": "^4.2.0",
     "zod": "^3.21.4"
   }

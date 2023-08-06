@@ -8,6 +8,7 @@ import LoggerService from "services/LoggerService";
 import { checkRepoStatus } from "helpers/git";
 import { createProject } from "models/helpers/projectModelHelpers";
 import { spawn } from "child_process";
+import PublishService from "services/PublishService";
 
 const loggerService = LoggerService.getInstance();
 
@@ -16,6 +17,12 @@ const createProjectSchema = z.object({
   preBuildCommand: z.string().min(3),
   buildCommand: z.string().min(3),
   startCommand: z.string().min(3),
+  env: z.array(
+    z.object({
+      key: z.string().min(1),
+      value: z.string().min(1),
+    })
+  ),
 });
 
 export const create = async (req: Request, res: Response) => {
@@ -30,39 +37,16 @@ export const create = async (req: Request, res: Response) => {
     const repoSplit = payload.repository.split("/");
     const folderName = repoSplit[repoSplit.length - 1].replace(".git", "");
 
-    const cmd = `
-    cd deployments
-    git clone ${payload.repository}
-    cp ../.env ./${folderName}/.env
-    echo -e '\nPORT=3002' >> ./${folderName}/.env
-    mv ${folderName} proj1
-    cd proj1
-    ${payload.preBuildCommand}
-    pwd
-    ${payload.buildCommand}
-    ${payload.startCommand}
-    `;
-
-    const command = spawn(cmd, { shell: true });
-
-    command.stdout.on("data", (data) => {
-      console.log(`stdout: ${data}`);
-    });
-
-    command.stderr.on("data", (data) => {
-      console.error(`stderr: ${data}`);
-    });
-
-    command.on("close", (code) => {
-      console.log(`child process exited with code ${code}`);
-    });
-
-    await createProject(
+    const project = await createProject(
       payload.repository,
       payload.preBuildCommand,
       payload.buildCommand,
-      payload.startCommand
+      payload.startCommand,
+      payload.env
     );
+
+    const publishService = new PublishService(project._id);
+    publishService.pullAndBuild();
 
     return res.status(201).json({ message: "Project created successfully" });
   } catch (error) {

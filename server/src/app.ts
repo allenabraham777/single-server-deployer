@@ -6,16 +6,21 @@ import LoggerService from "services/LoggerService";
 import adminRoutes from "routes/adminRoutes";
 import projectRoutes from "routes/projectRoutes";
 import routeLoggerMiddleware from "middlewares/routeLogger";
+import path from "path";
+import config from "config/config";
 
 const app: Application = express();
 
+const fileLoggerPath = path.join(config.server.rootDir, "server.log");
+
 const logger = new Logger();
-const fileLogger = new FileLogger("server.log");
+const fileLogger = new FileLogger(fileLoggerPath);
 
 const loggerService = LoggerService.getInstance();
 
 loggerService.registerLogger(logger);
 loggerService.registerLogger(fileLogger);
+loggerService.log(`DIRNAME ${fileLoggerPath}`);
 
 app.use(routeLoggerMiddleware);
 app.use(express.json());
