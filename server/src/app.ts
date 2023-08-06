@@ -20,7 +20,6 @@ const loggerService = LoggerService.getInstance();
 
 loggerService.registerLogger(logger);
 loggerService.registerLogger(fileLogger);
-loggerService.log(`DIRNAME ${fileLoggerPath}`);
 
 app.use(routeLoggerMiddleware);
 app.use(express.json());

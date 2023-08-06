@@ -15,11 +15,15 @@ export const createProject = async (
     env,
   });
   const project = await newProject.save();
-  console.log({ project });
   return project;
 };
 
 export const getProjectById = async (projectId: string) => {
   const project = await Project.findById(projectId);
   return project;
+};
+
+export const getAllProjects = async () => {
+  const projects = await Project.find();
+  return projects;
 };

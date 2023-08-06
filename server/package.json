@@ -6,16 +6,21 @@
   "scripts": {
     "build": "npx tsc",
     "start": "NODE_PATH=./dist node dist/index.js",
-    "dev": "nodemon src/index.ts"
+    "start:worker": "NODE_PATH=./dist node dist/workers/publishWorker.js",
+    "dev": "nodemon src/index.ts",
+    "worker": "nodemon src/workers/publishWorker.ts",
+    "dev:start": "concurrently npm:dev npm:worker"
   },
   "author": "Allen K Abraham",
   "license": "MIT",
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
+    "@types/bull": "^4.10.0",
     "@types/express": "^4.17.17",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/module-alias": "^2.0.1",
     "@types/node": "^20.4.6",
+    "concurrently": "^8.2.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "nodemon": "^3.0.1",
@@ -25,6 +30,7 @@
   "dependencies": {
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
+    "bull": "^4.10.4",
     "colors": "^1.4.0",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.2",
