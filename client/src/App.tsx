@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import AuthLayout from "layouts/AuthLayout/AuthLayout";
 import RootLayout from "layouts/RootLayout";
 import SignInPage from "pages/SignInPage";
@@ -8,11 +9,24 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import useStore from "store/store";
 import ProtectedRoute from "utils/routes/ProtectedRoute";
 
 type Props = {};
 
 const App = (props: Props) => {
+  const application = useStore((state) => state.application);
+  const setTheme = useStore((state) => state.setTheme);
+
+  useEffect(() => {
+    const theme = localStorage.getItem("theme");
+    if (theme) {
+      setTheme(theme);
+    } else {
+      localStorage.setItem("theme", "dark");
+    }
+  }, []);
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
@@ -27,7 +41,7 @@ const App = (props: Props) => {
     )
   );
   return (
-    <div>
+    <div className={`${application.theme} bg-background`}>
       <RouterProvider router={router} />
     </div>
   );

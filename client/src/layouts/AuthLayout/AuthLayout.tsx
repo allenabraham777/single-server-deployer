@@ -7,9 +7,7 @@ const AuthLayout = (props: Props) => {
     <div className="flex items-center justify-center h-[100vh]">
       <div>
         <div className="flex flex-col w-96">
-          <div className="border p-8 rounded-xl">
-            <Outlet />
-          </div>
+          <Outlet />
         </div>
       </div>
     </div>
