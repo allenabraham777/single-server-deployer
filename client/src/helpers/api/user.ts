@@ -1,20 +1,27 @@
-export const signupUser = async () => {
-  return {
-    name: "User Name",
-    email: "user@example.com",
-    token: "token",
-  };
+import apiClient from "utils/api/apiClient";
+
+export const signupUser = async (
+  name: string,
+  email: string,
+  username: string,
+  password: string
+) => {
+  const response = await apiClient.post("/admin/signup", {
+    username,
+    password,
+    name,
+    email,
+  });
+  return response.data;
 };
-export const loginUser = async () => {
-  return {
-    name: "User Name",
-    email: "user@example.com",
-    token: "token",
-  };
+export const loginUser = async (username: string, password: string) => {
+  const response = await apiClient.post("/admin/signin", {
+    username,
+    password,
+  });
+  return response.data;
 };
 export const getUserDetails = async (token: string) => {
-  return {
-    name: "User Name",
-    email: "user@example.com",
-  };
+  const response = await apiClient.get("/user/details");
+  return response.data;
 };

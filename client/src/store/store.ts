@@ -9,7 +9,12 @@ interface IStore {
     loading: boolean;
   };
   signIn: (username: string, password: string) => void;
-  signUp: () => void;
+  signUp: (
+    name: string,
+    email: string,
+    username: string,
+    password: string
+  ) => void;
   logout: () => void;
   setUserFromToken: () => void;
 }
@@ -29,7 +34,7 @@ const useStore = create<IStore>()((set) => ({
       loading: false,
     };
     try {
-      const { name, email, token } = await signupUser();
+      const { name, email, token } = await loginUser(username, password);
       payload = {
         name,
         email,
@@ -42,7 +47,12 @@ const useStore = create<IStore>()((set) => ({
     }
     set({ user: payload });
   },
-  signUp: async () => {
+  signUp: async (
+    _name: string,
+    _email: string,
+    username: string,
+    password: string
+  ) => {
     let payload = {
       name: "",
       email: "",
@@ -50,7 +60,12 @@ const useStore = create<IStore>()((set) => ({
       loading: false,
     };
     try {
-      const { name, email, token } = await loginUser();
+      const { name, email, token } = await signupUser(
+        _name,
+        _email,
+        username,
+        password
+      );
       payload = {
         name,
         email,

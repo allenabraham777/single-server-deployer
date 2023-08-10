@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import AdminUserModel from "models/Admin";
 import config from "config/config";
 import LoggerService from "services/LoggerService";
+import RequestWithUser from "interfaces/RequestWithUser.interface";
 
 const loggerService = LoggerService.getInstance();
 
@@ -65,7 +66,26 @@ export const signin = async (req: Request, res: Response) => {
     const userId = user._id.toString();
     const token = jwt.sign({ userId }, config.server.jwt.secret!);
 
-    res.status(200).json({ token });
+    res.status(200).json({ token, name: user.name, email: user.email });
+  } catch (error) {
+    loggerService.error(`${error}`, {
+      filename: "controllers/adminControllers.ts",
+      function: "signin",
+    });
+    res.status(400).json({ error: "Invalid payload" });
+  }
+};
+
+export const getUserDetails = async (req: Request, res: Response) => {
+  try {
+    const userId = (req as RequestWithUser).userId;
+    const user = await AdminUserModel.findById(userId);
+
+    if (!user) {
+      return res.status(403).json({ error: "Invalid operation" });
+    }
+
+    res.status(200).json({ _id: user._id, name: user.name, email: user.email });
   } catch (error) {
     loggerService.error(`${error}`, {
       filename: "controllers/adminControllers.ts",

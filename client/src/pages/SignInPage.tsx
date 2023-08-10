@@ -17,7 +17,8 @@ const SignInPage = (props: Props) => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const signIn = useStore((state) => state.signIn);
-  const signInUser = () => {
+  const signInUser = (e: any) => {
+    e.preventDefault();
     const username = usernameRef?.current?.value;
     const password = passwordRef?.current?.value;
     if (username && password) {
@@ -31,7 +32,7 @@ const SignInPage = (props: Props) => {
         <CardDescription>Please login to continue.</CardDescription>
       </CardHeader>
       <CardContent>
-        <form className="space-y-8">
+        <form className="space-y-8" onSubmit={signInUser}>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="username">Username</Label>
@@ -56,9 +57,7 @@ const SignInPage = (props: Props) => {
             </div>
           </div>
           <div className="grid w-full items-center">
-            <Button onClick={signInUser} className="rounded">
-              Login
-            </Button>
+            <Button className="rounded">Login</Button>
           </div>
         </form>
       </CardContent>

@@ -9,11 +9,30 @@ import {
   CardTitle,
 } from "components/ui/card";
 import { Input } from "components/ui/input";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
+import useStore from "store/store";
 
 type Props = {};
 
 const SignUpPage = (props: Props) => {
+  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const signUp = useStore((state) => state.signUp);
+
+  const handleSignup = (e: any) => {
+    e.preventDefault();
+    const name = nameRef?.current?.value;
+    const email = emailRef?.current?.value;
+    const username = usernameRef?.current?.value;
+    const password = passwordRef?.current?.value;
+    if (name && email && username && password) {
+      signUp(name, email, username, password);
+    }
+  };
+
   return (
     <Card className="rounded-xl py-4 px-2 drop-shadow-lg">
       <CardHeader>
@@ -21,7 +40,7 @@ const SignUpPage = (props: Props) => {
         <CardDescription>Signup to get started.</CardDescription>
       </CardHeader>
       <CardContent>
-        <form className="space-y-8">
+        <form className="space-y-8" onSubmit={handleSignup}>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Name</Label>
@@ -29,6 +48,7 @@ const SignUpPage = (props: Props) => {
                 id="name"
                 placeholder="Enter your full name"
                 className="rounded"
+                ref={nameRef}
               />
             </div>
           </div>
@@ -39,6 +59,7 @@ const SignUpPage = (props: Props) => {
                 id="email"
                 placeholder="Enter your email address"
                 className="rounded"
+                ref={emailRef}
               />
             </div>
           </div>
@@ -49,6 +70,7 @@ const SignUpPage = (props: Props) => {
                 id="username"
                 placeholder="Enter your username"
                 className="rounded"
+                ref={usernameRef}
               />
             </div>
           </div>
@@ -60,6 +82,7 @@ const SignUpPage = (props: Props) => {
                 type="password"
                 placeholder="Enter your password"
                 className="rounded"
+                ref={passwordRef}
               />
             </div>
           </div>

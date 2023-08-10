@@ -7,6 +7,7 @@ import adminRoutes from "routes/adminRoutes";
 import projectRoutes from "routes/projectRoutes";
 import routeLoggerMiddleware from "middlewares/routeLogger";
 import path from "path";
+import cors from "cors";
 import config from "config/config";
 
 const app: Application = express();
@@ -23,6 +24,7 @@ loggerService.registerLogger(fileLogger);
 
 app.use(routeLoggerMiddleware);
 app.use(express.json());
+app.use(cors());
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({ message: "Server running successfully" });
