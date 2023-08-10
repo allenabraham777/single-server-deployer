@@ -1,6 +1,7 @@
 import { Document } from "mongoose";
 
 interface IProject extends Document {
+  name: string;
   repository: string;
   preBuildCommand: string;
   buildCommand: string;

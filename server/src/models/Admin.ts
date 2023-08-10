@@ -7,12 +7,16 @@ import LoggerService from "services/LoggerService";
 const loggerService = LoggerService.getInstance();
 
 interface AdminUser extends Document {
+  name: string;
   username: string;
+  email: string;
   password: string;
 }
 
 const AdminUserSchema: Schema = new Schema({
+  name: { type: String, required: true },
   username: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
 });
 

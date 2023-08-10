@@ -1,6 +1,7 @@
 import Project from "models/Project";
 
 export const createProject = async (
+  name: string,
   repository: string,
   preBuildCommand: string,
   buildCommand: string,
@@ -8,6 +9,7 @@ export const createProject = async (
   env: { key: string; value: string }[]
 ) => {
   const newProject = new Project({
+    name,
     repository,
     preBuildCommand,
     buildCommand,
@@ -24,6 +26,6 @@ export const getProjectById = async (projectId: string) => {
 };
 
 export const getAllProjects = async () => {
-  const projects = await Project.find();
+  const projects = await Project.find().select("_id name repository");
   return projects;
 };

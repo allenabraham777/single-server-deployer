@@ -22,6 +22,7 @@ const publishQueue = new Bull("publish", {
 });
 
 const createProjectSchema = z.object({
+  name: z.string().min(4),
   repository: z.string().min(4),
   preBuildCommand: z.string().min(3),
   buildCommand: z.string().min(3),
@@ -44,6 +45,7 @@ export const create = async (req: Request, res: Response) => {
     }
 
     const project = await createProject(
+      payload.name,
       payload.repository,
       payload.preBuildCommand,
       payload.buildCommand,
@@ -109,33 +111,7 @@ export const getAll = async (req: Request, res: Response) => {
   try {
     const projects = await getAllProjects();
 
-    const response: Partial<IProject>[] = [];
-
-    projects.forEach((project) => {
-      const {
-        _id,
-        repository,
-        preBuildCommand,
-        buildCommand,
-        startCommand,
-        env,
-        status,
-      } = project;
-
-      response.push({
-        _id,
-        repository,
-        preBuildCommand,
-        buildCommand,
-        startCommand,
-        env,
-        status,
-      });
-    });
-
-    return res
-      .status(200)
-      .json({ message: "Project found", projects: response });
+    return res.status(200).json({ message: "Project found", projects });
   } catch (error) {
     loggerService.error(`${error}`, {
       filename: "controllers/projectControllers.ts",
@@ -154,6 +130,7 @@ export const update = async (req: Request, res: Response) => {
       return res.status(404).json({ error: "Project not found" });
     }
 
+    project.name = payload.name;
     project.repository = payload.repository;
     project.preBuildCommand = payload.preBuildCommand;
     project.buildCommand = payload.buildCommand;
@@ -162,7 +139,7 @@ export const update = async (req: Request, res: Response) => {
 
     await project.save();
 
-    publishQueue.add("pullAndBuild", { projectId: project._id, project });
+    publishQueue.add("redeploy", { projectId: project._id, project });
 
     return res
       .status(201)

@@ -9,6 +9,13 @@ import LoggerService from "services/LoggerService";
 const loggerService = LoggerService.getInstance();
 
 const adminUserSchema = z.object({
+  name: z.string().min(4),
+  email: z.string().min(4),
+  username: z.string().min(4),
+  password: z.string().min(8),
+});
+
+const adminUserLoginSchema = z.object({
   username: z.string().min(4),
   password: z.string().min(8),
 });
@@ -38,7 +45,7 @@ export const signup = async (req: Request, res: Response) => {
 
 export const signin = async (req: Request, res: Response) => {
   try {
-    const payload = adminUserSchema.parse(req.body);
+    const payload = adminUserLoginSchema.parse(req.body);
 
     const user = await AdminUserModel.findOne({ username: payload.username });
 

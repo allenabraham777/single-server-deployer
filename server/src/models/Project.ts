@@ -9,6 +9,7 @@ const EnvSchema: Schema = new Schema({
 });
 
 const ProjectSchema: Schema = new Schema({
+  name: { type: String, required: true },
   repository: { type: String, required: true },
   preBuildCommand: { type: String, required: true },
   buildCommand: { type: String, required: true },
