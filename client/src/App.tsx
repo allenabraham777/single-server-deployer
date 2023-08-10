@@ -36,7 +36,7 @@ const App = (props: Props) => {
     )
   );
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme="dark" storageKey="theme">
       <div className="bg-background">
         <RouterProvider router={router} />
       </div>

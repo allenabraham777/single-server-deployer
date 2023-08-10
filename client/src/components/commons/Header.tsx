@@ -10,12 +10,25 @@ import {
 } from "components/ui/dropdown-menu";
 import { Button } from "components/ui/button";
 import useStore from "store/store";
+import { Switch } from "components/ui/switch";
+import { Label } from "components/ui/label";
+import { useTheme } from "context/ThemeProvider";
 
 type Props = {};
 
 const Header = (props: Props) => {
   const user = useStore((state) => state.user);
   const logout = useStore((state) => state.logout);
+  const { theme, setTheme } = useTheme();
+
+  const switchThemeHandler = (event: any) => {
+    event.preventDefault();
+    if (event?.target?.value === "off") {
+      setTheme("dark");
+    } else {
+      setTheme("light");
+    }
+  };
   return (
     <nav className="flex items-center justify-end p-4 border-b border-b-border fixed top-0 left-0 right-0 bg-card">
       <DropdownMenu>
@@ -33,7 +46,7 @@ const Header = (props: Props) => {
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56" align="end" forceMount>
+        <DropdownMenuContent className="w-56" align="end">
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
               <p className="text-sm font-medium leading-none">{user.name}</p>
@@ -45,6 +58,17 @@ const Header = (props: Props) => {
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem
+              className="flex items-center justify-between"
+              onClick={switchThemeHandler}
+            >
+              <Label htmlFor="theme-menu">Switch Theme</Label>
+              <Switch
+                id="theme-menu"
+                checked={theme === "dark"}
+                value={theme === "dark" ? "on" : "off"}
+              />
+            </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={logout}>Log out</DropdownMenuItem>
