@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "components/ui/card";
 import { Input } from "components/ui/input";
+import { Loader2 } from "lucide-react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import useStore from "store/store";
@@ -21,6 +22,7 @@ const SignUpPage = (props: Props) => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const signUp = useStore((state) => state.signUp);
+  const user = useStore((state) => state.user);
 
   const handleSignup = (e: any) => {
     e.preventDefault();
@@ -87,7 +89,13 @@ const SignUpPage = (props: Props) => {
             </div>
           </div>
           <div className="grid w-full items-center">
-            <Button className="rounded">Create Account</Button>
+            <Button className="rounded" disabled={user.loading}>
+              {user.loading ? (
+                <Loader2 className="mr-2 h-6 w-6 animate-spin" />
+              ) : (
+                <>Create Account</>
+              )}
+            </Button>
           </div>
         </form>
       </CardContent>

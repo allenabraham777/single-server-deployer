@@ -1,4 +1,5 @@
 import { Button } from "components/ui/button";
+import { Loader2 } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -16,9 +17,11 @@ type Props = {};
 const SignInPage = (props: Props) => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const user = useStore((state) => state.user);
   const signIn = useStore((state) => state.signIn);
   const signInUser = (e: any) => {
     e.preventDefault();
+    if (user.loading) return;
     const username = usernameRef?.current?.value;
     const password = passwordRef?.current?.value;
     if (username && password) {
@@ -57,7 +60,13 @@ const SignInPage = (props: Props) => {
             </div>
           </div>
           <div className="grid w-full items-center">
-            <Button className="rounded">Login</Button>
+            <Button className="rounded" disabled={user.loading}>
+              {user.loading ? (
+                <Loader2 className="mr-2 h-6 w-6 animate-spin" />
+              ) : (
+                <>Sign In</>
+              )}
+            </Button>
           </div>
         </form>
       </CardContent>

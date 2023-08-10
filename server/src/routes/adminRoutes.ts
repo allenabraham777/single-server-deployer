@@ -8,6 +8,6 @@ router.post("/signin", signin);
 
 router.post("/signup", signup);
 
-router.post("/user/details", authMiddleware, getUserDetails);
+router.get("/user/details", authMiddleware, getUserDetails);
 
 export default router;

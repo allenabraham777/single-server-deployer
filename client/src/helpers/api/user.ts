@@ -21,7 +21,7 @@ export const loginUser = async (username: string, password: string) => {
   });
   return response.data;
 };
-export const getUserDetails = async (token: string) => {
-  const response = await apiClient.get("/user/details");
+export const getUserDetails = async () => {
+  const response = await apiClient.get("/admin/user/details");
   return response.data;
 };

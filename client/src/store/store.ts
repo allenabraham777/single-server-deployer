@@ -99,7 +99,7 @@ const useStore = create<IStore>()((set) => ({
     };
     if (token) {
       try {
-        const { name, email } = await getUserDetails(token);
+        const { name, email } = await getUserDetails();
         payload = {
           name,
           email,
