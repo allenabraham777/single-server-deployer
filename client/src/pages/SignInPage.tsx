@@ -8,10 +8,22 @@ import {
 } from "components/ui/card";
 import { Input } from "components/ui/input";
 import { Label } from "components/ui/label";
+import { useRef } from "react";
+import useStore from "store/store";
 
 type Props = {};
 
 const SignInPage = (props: Props) => {
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const signIn = useStore((state) => state.signIn);
+  const signInUser = () => {
+    const username = usernameRef?.current?.value;
+    const password = passwordRef?.current?.value;
+    if (username && password) {
+      signIn(username, password);
+    }
+  };
   return (
     <Card className="rounded-xl py-4 px-2 drop-shadow-lg">
       <CardHeader>
@@ -27,6 +39,7 @@ const SignInPage = (props: Props) => {
                 id="username"
                 placeholder="Enter your username"
                 className="rounded"
+                ref={usernameRef}
               />
             </div>
           </div>
@@ -37,11 +50,15 @@ const SignInPage = (props: Props) => {
                 id="password"
                 placeholder="Enter your password"
                 className="rounded"
+                ref={passwordRef}
+                type="password"
               />
             </div>
           </div>
           <div className="grid w-full items-center">
-            <Button className="rounded">Login</Button>
+            <Button onClick={signInUser} className="rounded">
+              Login
+            </Button>
           </div>
         </form>
       </CardContent>

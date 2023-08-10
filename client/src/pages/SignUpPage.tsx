@@ -24,6 +24,16 @@ const SignUpPage = (props: Props) => {
         <form className="space-y-8">
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                id="name"
+                placeholder="Enter your full name"
+                className="rounded"
+              />
+            </div>
+          </div>
+          <div className="grid w-full items-center gap-4">
+            <div className="flex flex-col space-y-1.5">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
@@ -58,10 +68,10 @@ const SignUpPage = (props: Props) => {
           </div>
         </form>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="text-xs">
         Already have an account?{" "}
         <Link to="/signin">
-          <Button className="px-2" variant="link">
+          <Button className="px-1 text-xs" variant="link">
             Sign In
           </Button>
         </Link>
