@@ -26,6 +26,6 @@ export const getProjectById = async (projectId: string) => {
 };
 
 export const getAllProjects = async () => {
-  const projects = await Project.find().select("_id name repository");
+  const projects = await Project.find().select("_id name repository status");
   return projects;
 };

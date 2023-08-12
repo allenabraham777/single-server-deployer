@@ -14,6 +14,7 @@ import ProtectedRoute from "utils/routes/ProtectedRoute";
 import DashboardPage from "pages/DashboardPage";
 import { ThemeProvider } from "context/ThemeProvider";
 import ProjectPage from "pages/ProjectPage";
+import DashboardLayout from "layouts/DashboardLayout";
 
 type Props = {};
 
@@ -31,11 +32,9 @@ const App = (props: Props) => {
         </Route>
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Navigate to="/dashboard" />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route
-            path="/dashboard/project/:projectId"
-            element={<ProjectPage />}
-          />
+          <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route path="project/:projectId" element={<ProjectPage />} />
+          </Route>
         </Route>
       </>
     )

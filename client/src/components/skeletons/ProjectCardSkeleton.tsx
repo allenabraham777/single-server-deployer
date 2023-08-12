@@ -18,6 +18,9 @@ const ProjectCardSkeleton = (props: Props) => {
         <CardDescription>
           <Skeleton className="h-4 w-[100%]" />
         </CardDescription>
+        <CardDescription>
+          <Skeleton className="h-4 w-[20%]" />
+        </CardDescription>
       </CardHeader>
     </Card>
   );

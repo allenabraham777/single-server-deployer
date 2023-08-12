@@ -26,13 +26,7 @@ const DashboardPage = (props: Props) => {
           ? Array(12)
               .fill(0)
               .map((_) => <ProjectCardSkeleton />)
-          : projects.map((project) => (
-              <ProjectCard
-                _id={project._id}
-                name={project.name!}
-                repository={project.repository!}
-              />
-            ))}
+          : projects.map((project) => <ProjectCard {...project} />)}
       </div>
       {loading && (
         <div className="mt-8 space-y-8">
